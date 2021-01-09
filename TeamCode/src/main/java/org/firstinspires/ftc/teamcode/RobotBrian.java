@@ -19,6 +19,9 @@ public class RobotBrian {
     private DcMotor backRight;
     private DcMotor impell;
     private Servo blocker;
+
+    public Servo name;
+
     public ColorRangeSensor rightColor;
     public ColorRangeSensor leftColor;
     // smart servos:
@@ -41,6 +44,8 @@ public class RobotBrian {
         //foundationMoverLeft = map.servo.get("foundation_left");
         //grabber = map.servo.get("grabber");
         phone= new ConceptVuforiaNavigation();
+
+        name = map.servo.get("name");//
 
         LynxI2cColorRangeSensor rightRange = map.get(LynxI2cColorRangeSensor.class, "rightRange");
         rightColor = new ColorRangeSensor(rightRange);
