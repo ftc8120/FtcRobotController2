@@ -20,13 +20,13 @@ public class RobotBrian {
     private DcMotor impell;
     private Servo blocker;
 
-    public Servo name;
 
     public ColorRangeSensor rightColor;
     public ColorRangeSensor leftColor;
     // smart servos:
     public Servo foundationMoverRight;
     private Servo foundationMoverLeft;
+    //public Servo wobble;
     //private Servo grabber;
     private ConceptVuforiaNavigation phone;
 
@@ -44,10 +44,10 @@ public class RobotBrian {
         //foundationMoverLeft = map.servo.get("foundation_left");
         //grabber = map.servo.get("grabber");
         phone= new ConceptVuforiaNavigation();
+        //wobble = map.servo.get("wobble");
 
-        name = map.servo.get("name");//
 
-        LynxI2cColorRangeSensor rightRange = map.get(LynxI2cColorRangeSensor.class, "rightRange");
+      /*  LynxI2cColorRangeSensor rightRange = map.get(LynxI2cColorRangeSensor.class, "rightRange");
         rightColor = new ColorRangeSensor(rightRange);
         rightColor.calibrate();
 
@@ -56,7 +56,7 @@ public class RobotBrian {
         leftColor.calibrate();
 
         stop();
-        setEncoders(false);
+        setEncoders(false);*/
     }
 
     /**
@@ -208,4 +208,11 @@ public class RobotBrian {
         return leftColor.isBlack();
     }
 
+   /* public void open() {
+        wobble.setPosition(1);
+    }
+
+    public void close() {
+        wobble. setPosition(0);
+    }*/
 }

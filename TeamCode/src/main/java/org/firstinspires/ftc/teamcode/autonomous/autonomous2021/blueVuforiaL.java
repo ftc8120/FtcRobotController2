@@ -12,10 +12,8 @@ import org.firstinspires.ftc.teamcode.RobotBrian;
 
 import java.util.List;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
-@Autonomous(name = "vuforia")
-public class vuforia extends OpMode {
+@Autonomous(name = "blueVuforiaL")
+public class blueVuforiaL extends OpMode {
 
     ElapsedTime timer;
     private RobotBrian robot;
@@ -102,7 +100,7 @@ public class vuforia extends OpMode {
         switch(state)
         {
             case 0:
-                robot.left(speed);
+                robot.right(speed);
                 if(timer.milliseconds()> half_block ){
                     next();
                 }
@@ -126,17 +124,18 @@ public class vuforia extends OpMode {
                                 //4rings(square C) on field
                                 state = 102; //
                                 next();
-                            }else if(label.equals(LABEL_SECOND_ELEMENT)){
+                            }
+                            else if(label.equals(LABEL_SECOND_ELEMENT)){
                                     //1 ring (square B)
                                 state = 202;
                                 next();
-                                }
+                                
 
                             }
-                        }else{
-                            //we found no rings (square A) on field
-
-                        }
+                        }else {
+                        //we found no rings (square A) on field
+                            next();
+                    }
 
                     }
                 }
@@ -144,15 +143,109 @@ public class vuforia extends OpMode {
 
             case 3: // square A
                 // go to square A
-
+                robot.left(speed);
+                if(timer.seconds()>1)
+                    next();
                 break;
+
+            case 4:
+
+                robot.forward(speed);
+                if(timer.seconds()>2)
+                    next();
+                break;
+
+            case 5:
+                // drop the thing in box using servo
+                robot.left(speed);
+                if(timer.seconds()>1)
+                    next();
+                break;
+
+            case 6://park on white tape
+                robot.backward(speed);
+                if(timer.seconds()>.5)
+                    next();
+                break;
+
+
+
+
+
+
 
             case 103://square B
                 //move
+                robot.impell(speed);
+                robot.forward(speed);
+                if(timer.seconds()>half_block)
+                    next();
                 break;
 
-            case 203://square C
-                //move
+            case 104:
+                robot.forward(speed);
+                if(timer.seconds()>3)
+                    next();
+                break;
+
+            case 105:
+                robot.stoppell();
+                robot.forward(speed);
+                if(timer.seconds()>1)
+                    next();
+                break;
+
+            case 106:
+                // drop the thing in box using servo
+                robot.left(speed);
+                if(timer.seconds()>1)
+                    next();
+                break;
+
+            case 107:
+                //park on white tape
+                robot.backward(speed);
+                if(timer.seconds()>2)
+                    next();
+                break;
+
+
+
+
+
+
+
+            case 203:
+                robot.impell(speed);
+                robot.forward(speed);
+                if(timer.seconds()>half_block)
+                    next();
+                break;
+
+            case 204:
+                robot.stoppell();
+                robot.left(speed);
+                if(timer.seconds()>3)
+                    next();
+                break;
+
+            case 205:
+                robot.forward(speed);
+                if(timer.seconds()>3)
+                    next();
+
+            case 206:
+                // drop the thing in box using servo
+                robot.left(speed);
+                if(timer.seconds()>1)
+                    next();
+                break;
+
+            case 207:
+                //park on white tape
+                robot.backward(speed);
+                if(timer.seconds()>3)
+                    next();
                 break;
         }
     }

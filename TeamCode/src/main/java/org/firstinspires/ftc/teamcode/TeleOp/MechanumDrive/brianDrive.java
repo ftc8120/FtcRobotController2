@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name = "brianDrive")
+@TeleOp(name = "toasterDrive")
 public class brianDrive extends OpMode{
     private RobotBrian robot;
     private double speed;
@@ -25,9 +25,9 @@ public class brianDrive extends OpMode{
         // Routines separated into separate functions
         updateDriver();
         updateCodriver();
-        feedback(telemetry);
+   //     feedback(telemetry);
     }
-
+/*
     public void feedback(Telemetry telemetry) {
         // Print out the color sensor RGB values
         telemetry.addData("Right R", robot.rightColor.red());
@@ -35,7 +35,7 @@ public class brianDrive extends OpMode{
         telemetry.addData("Right B", robot.rightColor.blue());
         // Print out the distance from the right sensor in CM
         //telemetry.addData("Right Distance (cm)", this.getDistance(DistanceUnit.CM));
-    }
+    }*/
 
     /**
      * Process gamepad1 (driver) controls

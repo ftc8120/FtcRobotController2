@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.RobotBrian;
 @Autonomous(name = "US Auto Red")
 public class USAutoRed extends OpMode {
 
-    
 
     @Override
     public void init() {
@@ -22,3 +21,4 @@ public class USAutoRed extends OpMode {
     public void loop() {
 
     }
+}
