@@ -25,8 +25,8 @@ public class redVuforiaR extends OpMode {
     private final double half_block=3;//actually figure it out
 
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Quad"; //4rings
-    private static final String LABEL_SECOND_ELEMENT = "Single";//1ring
+    private static final String FOUR_RINGS = "Quad"; //4rings
+    private static final String ONE_RINGS = "Single"; //1ring
 
     private static final String VUFORIA_KEY =
             "AYef6RP/////AAABmQhqgETT3Uq8mNFqAbjPOD990o1n/Osn3oBdTsKI0NXgPuXS612xYfN5Q65srnoMx2eKX" +
@@ -74,6 +74,8 @@ public class redVuforiaR extends OpMode {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+
+        // similar to adding trackables to Vuforia, we need to add models to TF
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
@@ -82,17 +84,25 @@ public class redVuforiaR extends OpMode {
         initVuforia();
         initTfod();
         if (tfod != null) {
+            // camera zoom settings for TensorFlow
             tfod.activate();
             tfod.setZoom(2.5, 16.0/9.0);
             //can change mag later to find seomthing better- if want to test
-            //dont change ratio
+            //dont change ratio (unless you want to)
         }
 
+        // Normal init stuff
         timer = new ElapsedTime();
         robot = new RobotBrian();
         robot.init(hardwareMap);
         speed = .5;
         state = 0;
+    }
+
+    public void next(int whichStep) {
+        state = whichStep;
+        timer.reset();
+        robot.stop();
     }
 
     public void next() {
@@ -105,32 +115,27 @@ public class redVuforiaR extends OpMode {
     public void loop() {
         switch(state)
         {
-
-            case 0:
-                if(tfod != null){
+            case "": // do the first thing
+                if(tfod != null) { // make sure TF is working
+                    // ask the camera exactly what objects are in sight right now
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if(updatedRecognitions != null){
-                        if(updatedRecognitions.size() > 0){
-                            //we found rings
-                            Recognition stack = updatedRecognitions.get(0);
-                            String label = stack.getLabel();
-                            if(label.equals(LABEL_FIRST_ELEMENT)) {
+                    if(updatedRecognitions != null) { // camera still good brah?
+                        if(updatedRecognitions.size() > 0) { // how many objects do we recognize?
+                            // we found rings
+                            Recognition stack = updatedRecognitions.get(0); // get the first thing we saw
+                            String label = stack.getLabel(); // This is the name that TF knows the object by.
+                            if(label.equals(FOUR_RINGS)) {
                                 //4rings(square C) on field
-                                state = 102; //
-                                next();
+                                next(103);
                             }
-                            else if(label.equals(LABEL_SECOND_ELEMENT)){
-                                    //1 ring (square B)
-                                state = 202;
-                                next();
-                                
-
+                            else if(label.equals(ONE_RINGS)){
+                                //1 ring (square B)
+                                next(203);
                             }
-                        }else {
-                        //we found no rings (square A) on field
-                            next();
-                    }
-
+                        } else {
+                            //we found no rings (square A) on field
+                            next(302);
+                        }
                     }
                 }
                 break;
@@ -181,7 +186,7 @@ public class redVuforiaR extends OpMode {
             case 203://square b
                 robot.forward(speed);
                 if(timer.seconds()>3.5)
-                next();
+                    next();
                 break;
 
             case 204:
@@ -190,6 +195,9 @@ public class redVuforiaR extends OpMode {
                 if(timer.seconds()>.8)
                     next();
                 break;
+
+            default: // THIS IS IMPORTANT; STATE MATCH NOT FOUND
+                robot.stop();
         }
     }
 }
