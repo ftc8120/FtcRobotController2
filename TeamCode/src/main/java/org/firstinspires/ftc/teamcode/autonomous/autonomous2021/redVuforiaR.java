@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
+
 @Autonomous(name = "redVuforiaR")
 public class redVuforiaR extends OpMode {
 
